@@ -15,14 +15,14 @@ class User extends Model {
   }
 
   static get hidden () {
-    return ['password']
+    return ['password', 'file_id', 'created_at', 'updated_at']
   }
 
   tokens () {
     return this.hasMany('App/Models/Token')
   }
 
-  file () {
+  avatar () {
     return this.belongsTo('App/Models/File')
   }
 }
