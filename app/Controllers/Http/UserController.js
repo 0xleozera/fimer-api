@@ -10,6 +10,14 @@ class UserController {
 
     return user
   }
+
+  async show ({ params }) {
+    const user = await User.findOrFail(params.id)
+
+    await user.load('avatar')
+
+    return user
+  }
 }
 
 module.exports = UserController
