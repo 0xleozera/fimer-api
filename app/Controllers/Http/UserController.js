@@ -4,7 +4,7 @@ const User = use('App/Models/User')
 
 class UserController {
   async store ({ request }) {
-    const data = request.all()
+    const data = request.post()
 
     const user = await User.create(data)
 
@@ -16,7 +16,7 @@ class UserController {
   async show ({ params }) {
     const user = await User.findOrFail(params.id)
 
-    await user.load('avatar')
+    await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
 
     return user
   }

@@ -5,7 +5,7 @@ const Schema = use('Schema')
 
 class UserRankingSchema extends Schema {
   up () {
-    this.create('user_ranking', (table) => {
+    this.create('ranking_user', (table) => {
       table.integer('user_id').unsigned().index()
       table.foreign('user_id').references('users.id').onUpdate('CASCADE').onDelete('CASCADE')
 
@@ -15,7 +15,7 @@ class UserRankingSchema extends Schema {
   }
 
   down () {
-    this.drop('user_ranking')
+    this.drop('ranking_user')
   }
 }
 
