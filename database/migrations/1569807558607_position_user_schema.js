@@ -6,6 +6,8 @@ const Schema = use('Schema')
 class UserPositionSchema extends Schema {
   up () {
     this.create('position_user', (table) => {
+      table.increments()
+
       table.integer('user_id').unsigned().index()
       table.foreign('user_id').references('users.id').onUpdate('CASCADE').onDelete('CASCADE')
 

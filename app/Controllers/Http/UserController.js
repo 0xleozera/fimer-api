@@ -22,13 +22,47 @@ class UserController {
   }
 
   async update ({ request, auth }) {
-    const user = await User.findOrFail(auth.user.id)
-    const data = request.all()
+    const {
+      name,
+      nickname,
+      birth_date,
+      localization,
+      gender,
+      file_id,
+      positions,
+      games,
+      rankings
+    } = request.post()
 
-    user.merge(data)
+    const user = await User.findOrFail(auth.user.id)
+
+    user.merge({
+      name,
+      nickname,
+      birth_date,
+      localization,
+      gender,
+      file_id
+    })
 
     await user.save()
-    await user.load('avatar')
+
+    if (games && games.length > 0) {
+      await user.games().detach()
+      await user.games().attach(games)
+    }
+
+    if (positions && positions.length > 0) {
+      await user.positions().detach()
+      await user.positions().attach(positions)
+    }
+
+    if (rankings && rankings.length > 0) {
+      await user.rankings().detach()
+      await user.rankings().attach(rankings)
+    }
+
+    await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
 
     return user
   }
