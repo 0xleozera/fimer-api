@@ -20,6 +20,18 @@ class UserController {
 
     return user
   }
+
+  async update ({ request, auth }) {
+    const user = await User.findOrFail(auth.user.id)
+    const data = request.all()
+
+    user.merge(data)
+
+    await user.save()
+    await user.load('avatar')
+
+    return user
+  }
 }
 
 module.exports = UserController

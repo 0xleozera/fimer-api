@@ -9,5 +9,7 @@ Route.post('files', 'FileController.store')
 
 Route.group(() => {
   Route.get('users/:id', 'UserController.show')
+  Route.put('users', 'UserController.update')
+
   Route.get('files/:id', 'FileController.show')
 }).middleware(['auth'])
