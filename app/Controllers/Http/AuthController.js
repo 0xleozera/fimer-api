@@ -9,7 +9,9 @@ class AuthController {
     const credentials = await auth.attempt(email, password)
 
     if (credentials.token) {
-      const user = await User.query().where('email', email).with('avatar').fetch()
+      const user = await User.findByOrFail('email', email)
+
+      await user.load('avatar')
 
       return { user, ...credentials }
     }

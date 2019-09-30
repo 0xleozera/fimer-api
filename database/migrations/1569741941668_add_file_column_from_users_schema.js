@@ -12,7 +12,7 @@ class AddFileColumnFromUsersSchema extends Schema {
 
   down () {
     this.table('users', (table) => {
-      // reverse alternations
+      table.dropColumn('file_id')
     })
   }
 }
