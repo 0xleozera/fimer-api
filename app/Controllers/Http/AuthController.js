@@ -11,7 +11,7 @@ class AuthController {
     if (credentials.token) {
       const user = await User.findByOrFail('email', email)
 
-      await user.load('avatar')
+      await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
 
       return { user, ...credentials }
     }
