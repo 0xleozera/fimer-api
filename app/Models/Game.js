@@ -3,6 +3,10 @@
 const Model = use('Model')
 
 class Game extends Model {
+  users () {
+    return this.belongsToMany('App/Models/User')
+  }
+
   positions () {
     return this.hasMany('App/Models/Position')
   }

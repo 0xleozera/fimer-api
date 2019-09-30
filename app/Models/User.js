@@ -18,6 +18,18 @@ class User extends Model {
     return ['password', 'file_id', 'created_at', 'updated_at']
   }
 
+  games () {
+    return this.belongsToMany('App/Models/Game')
+  }
+
+  positions () {
+    return this.belongsToMany('App/Models/Position')
+  }
+
+  rankings () {
+    return this.belongsToMany('App/Models/Ranking')
+  }
+
   tokens () {
     return this.hasMany('App/Models/Token')
   }
