@@ -3,9 +3,13 @@
 const Model = use('Model')
 const Hash = use('Hash')
 
+const UserFilter = use('App/ModelFilters/UserFilter')
+
 class User extends Model {
   static boot () {
     super.boot()
+
+    this.addTrait('@provider:Filterable', UserFilter)
 
     this.addHook('beforeSave', async userInstance => {
       if (userInstance.dirty.password) {
