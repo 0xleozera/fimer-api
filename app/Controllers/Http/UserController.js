@@ -8,6 +8,8 @@ class UserController {
 
     const user = await User.create(data)
 
+    await user.load('avatar')
+
     return user
   }
 
