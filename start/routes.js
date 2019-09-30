@@ -13,4 +13,6 @@ Route.group(() => {
   Route.put('users', 'UserController.update')
 
   Route.get('files/:id', 'FileController.show')
+
+  Route.get('games', 'GameController.index')
 }).middleware(['auth'])

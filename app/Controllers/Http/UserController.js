@@ -8,7 +8,7 @@ class UserController {
 
     const user = await User.create(data)
 
-    await user.load('avatar')
+    await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
 
     return user
   }
