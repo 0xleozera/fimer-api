@@ -5,9 +5,10 @@ const Schema = use('Schema')
 
 class GamesSchema extends Schema {
   up () {
-    this.create('games', (table) => {
+    this.create('games', table => {
       table.increments()
       table.string('name', 80).notNullable()
+      table.string('slug', 40)
       table.timestamps()
     })
   }

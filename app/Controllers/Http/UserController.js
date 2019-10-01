@@ -26,7 +26,7 @@ class UserController {
       name,
       nickname,
       birth_date,
-      localization,
+      region,
       gender,
       file_id,
       positions,
@@ -40,7 +40,7 @@ class UserController {
       name,
       nickname,
       birth_date,
-      localization,
+      region,
       gender,
       file_id
     })
