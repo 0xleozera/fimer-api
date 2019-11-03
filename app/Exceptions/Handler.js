@@ -2,9 +2,9 @@
 
 const Sentry = require('@sentry/node')
 
-const Config = require('Config')
+const Config = use('Config')
 const Env = use('Env')
-// const Youch = use('Youch')
+const Youch = use('Youch')
 const BaseExceptionHandler = use('BaseExceptionHandler')
 
 class ExceptionHandler extends BaseExceptionHandler {
@@ -14,7 +14,10 @@ class ExceptionHandler extends BaseExceptionHandler {
     }
 
     if (Env.get('NODE_ENV') === 'development') {
-      return response.status(error.status).send(error)
+      const youch = new Youch(error, request.request)
+      const errorJSON = await youch.toJSON()
+
+      return response.status(error.status).send(errorJSON)
     }
 
     return response.status(error.status)
