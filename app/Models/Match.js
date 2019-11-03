@@ -10,6 +10,10 @@ class Match extends Model {
   matchee () {
     return this.belongsTo('App/Models/User')
   }
+
+  messages () {
+    return this.hasMany('App/Models/Message')
+  }
 }
 
 module.exports = Match
