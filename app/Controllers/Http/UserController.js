@@ -1,5 +1,6 @@
 'use strict'
 
+const Database = use('Database')
 const User = use('App/Models/User')
 
 class UserController {
@@ -33,7 +34,7 @@ class UserController {
       games,
       rankings
     } = request.post()
-
+    const trx = await Database.beginTransaction()
     const user = await User.findOrFail(auth.user.id)
 
     user.merge({
@@ -45,24 +46,23 @@ class UserController {
       file_id
     })
 
-    await user.save()
+    await user.save(trx)
 
     if (games && games.length > 0) {
-      await user.games().detach()
-      await user.games().attach(games)
+      await user.games().sync(games, trx)
     }
 
     if (positions && positions.length > 0) {
-      await user.positions().detach()
-      await user.positions().attach(positions)
+      await user.positions().sync(positions, trx)
     }
 
     if (rankings && rankings.length > 0) {
-      await user.rankings().detach()
-      await user.rankings().attach(rankings)
+      await user.rankings().sync(rankings, trx)
     }
 
     await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
+
+    await trx.commit()
 
     return user
   }
