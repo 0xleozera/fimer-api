@@ -22,6 +22,22 @@ class User extends Model {
     return ['password', 'file_id', 'created_at', 'updated_at']
   }
 
+  likers () {
+    return this.hasMany('App/Models/Like', 'id', 'liker_id')
+  }
+
+  likees () {
+    return this.hasMany('App/Models/Like', 'id', 'likee_id')
+  }
+
+  matchers () {
+    return this.hasMany('App/Models/Match', 'id', 'matcher_id')
+  }
+
+  matchees () {
+    return this.hasMany('App/Models/Match', 'id', 'matchee_id')
+  }
+
   games () {
     return this.belongsToMany('App/Models/Game')
   }
