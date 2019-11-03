@@ -21,4 +21,7 @@ Route.group(() => {
 
   // Search
   Route.get('search', 'SearchController.index')
+
+  // Likes
+  Route.post('likes', 'LikeController.store')
 }).middleware(['auth'])
