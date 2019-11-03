@@ -26,6 +26,10 @@ class User extends Model {
     return this.hasMany('App/Models/Like')
   }
 
+  matches () {
+    return this.hasMany('App/Models/Match')
+  }
+
   games () {
     return this.belongsToMany('App/Models/Game')
   }
