@@ -23,15 +23,19 @@ class User extends Model {
   }
 
   likers () {
-    return this.hasMany('App/Models/Like')
+    return this.hasMany('App/Models/Like', 'id', 'like_liker_id')
   }
 
   likees () {
-    return this.hasMany('App/Models/Like')
+    return this.hasMany('App/Models/Like', 'id', 'like_likee_id')
   }
 
-  matches () {
-    return this.hasMany('App/Models/Match')
+  matchers () {
+    return this.hasMany('App/Models/Match', 'id', 'match_matcher_id')
+  }
+
+  matchees () {
+    return this.hasMany('App/Models/Match', 'id', 'match_matchee_id')
   }
 
   games () {
