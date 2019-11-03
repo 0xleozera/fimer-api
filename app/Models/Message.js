@@ -3,6 +3,12 @@
 const Model = use('Model')
 
 class Message extends Model {
+  static boot () {
+    super.boot()
+
+    this.addHook('afterCreate', 'MessageHook.sendWs')
+  }
+
   static get hidden () {
     return ['user_send_id', 'user_receive_id']
   }

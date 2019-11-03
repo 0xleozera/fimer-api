@@ -7,14 +7,14 @@ const LikeHook = (exports = module.exports = {})
 
 LikeHook.method = async modelInstance => {}
 
-LikeHook.match = async modelInstance => {
+LikeHook.match = async like => {
   const [fetchLiker, fetchLikee] = await Promise.all([
     User.query()
-      .where('id', modelInstance.liker_id)
+      .where('id', like.liker_id)
       .with('likees')
       .fetch(),
     User.query()
-      .where('id', modelInstance.likee_id)
+      .where('id', like.likee_id)
       .with('likees')
       .fetch()
   ])
@@ -23,16 +23,16 @@ LikeHook.match = async modelInstance => {
   const likee = fetchLikee.toJSON()
 
   const hasLiker =
-    liker[0].likees.filter(likee => likee.liker_id === modelInstance.likee_id)
-      .length === 1
+    liker[0].likees.filter(likee => likee.liker_id === like.likee_id).length ===
+    1
   const hasLikee =
-    likee[0].likees.filter(likee => likee.liker_id === modelInstance.liker_id)
-      .length === 1
+    likee[0].likees.filter(likee => likee.liker_id === like.liker_id).length ===
+    1
 
   if (hasLiker && hasLikee) {
     await Match.create({
-      matcher_id: modelInstance.liker_id,
-      matchee_id: modelInstance.likee_id
+      matcher_id: like.liker_id,
+      matchee_id: like.likee_id
     })
   }
 }
