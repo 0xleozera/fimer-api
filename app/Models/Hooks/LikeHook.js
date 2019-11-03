@@ -19,17 +19,16 @@ LikeHook.match = async like => {
       .fetch()
   ])
 
-  const liker = fetchLiker.toJSON()
-  const likee = fetchLikee.toJSON()
+  const [liker] = fetchLiker.toJSON()
+  const [likee] = fetchLikee.toJSON()
 
   const hasLiker =
-    liker[0].likees.filter(likee => likee.liker_id === like.likee_id).length ===
-    1
+    liker.likees.filter(likee => likee.liker_id === like.likee_id).length === 1
   const hasLikee =
-    likee[0].likees.filter(likee => likee.liker_id === like.liker_id).length ===
-    1
+    likee.likees.filter(likee => likee.liker_id === like.liker_id).length === 1
 
   if (hasLiker && hasLikee) {
+    console.log('deu match')
     await Match.create({
       matcher_id: like.liker_id,
       matchee_id: like.likee_id

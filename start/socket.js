@@ -15,4 +15,5 @@
 
 const Ws = use('Ws')
 
+Ws.channel('matches:*', 'MatchController').middleware('auth')
 Ws.channel('messages:*', 'MessageController').middleware('auth')

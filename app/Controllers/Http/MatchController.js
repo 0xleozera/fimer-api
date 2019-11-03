@@ -7,6 +7,8 @@ class MatchController {
     const matches = await Match.query()
       .where('matcher_id', auth.user.id)
       .orWhere('matchee_id', auth.user.id)
+      .with('matcher')
+      .with('matchee')
       .with('messages')
       .with('messages.send')
       .fetch()
