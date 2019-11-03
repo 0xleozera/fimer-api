@@ -24,4 +24,7 @@ Route.group(() => {
 
   // Likes
   Route.post('likes', 'LikeController.store')
+
+  // Matches
+  Route.get('matches', 'MatchController.index')
 }).middleware(['auth'])

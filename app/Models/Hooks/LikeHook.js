@@ -28,6 +28,7 @@ LikeHook.match = async modelInstance => {
   const hasLikee =
     likee[0].likees.filter(likee => likee.liker_id === modelInstance.liker_id)
       .length === 1
+
   if (hasLiker && hasLikee) {
     await Match.create({
       matcher_id: modelInstance.liker_id,
