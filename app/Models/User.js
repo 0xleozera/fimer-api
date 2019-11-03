@@ -22,6 +22,10 @@ class User extends Model {
     return ['password', 'file_id', 'created_at', 'updated_at']
   }
 
+  likes () {
+    return this.hasMany('App/Models/Like')
+  }
+
   games () {
     return this.belongsToMany('App/Models/Game')
   }
