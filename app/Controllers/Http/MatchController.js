@@ -8,7 +8,7 @@ class MatchController {
       .where('matcher_id', auth.user.id)
       .orWhere('matchee_id', auth.user.id)
       .with('messages')
-      .with('messages.send_id')
+      .with('messages.send')
       .fetch()
 
     return matches

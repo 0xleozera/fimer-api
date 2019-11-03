@@ -27,4 +27,8 @@ Route.group(() => {
 
   // Matches
   Route.get('matches', 'MatchController.index')
+
+  // Messages
+  Route.get('messages/:matchId', 'MessageController.index')
+  Route.post('messages', 'MessageController.store')
 }).middleware(['auth'])

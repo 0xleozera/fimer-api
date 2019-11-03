@@ -22,6 +22,7 @@ class MessagesSchema extends Schema {
         .unsigned()
         .references('id')
         .inTable('users')
+      table.text('body', 'longtext')
       table.timestamps()
     })
   }
