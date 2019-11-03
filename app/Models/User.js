@@ -22,7 +22,11 @@ class User extends Model {
     return ['password', 'file_id', 'created_at', 'updated_at']
   }
 
-  likes () {
+  likers () {
+    return this.hasMany('App/Models/Like')
+  }
+
+  likees () {
     return this.hasMany('App/Models/Like')
   }
 
