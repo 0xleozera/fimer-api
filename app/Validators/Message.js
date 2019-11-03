@@ -1,5 +1,7 @@
 'use strict'
 
+const Antl = use('Antl')
+
 class Message {
   get rules () {
     return {
@@ -7,6 +9,10 @@ class Message {
       user_receive_id: 'required',
       match_id: 'required'
     }
+  }
+
+  get messages () {
+    return Antl.list('validation')
   }
 }
 

@@ -1,5 +1,7 @@
 'use strict'
 
+const Antl = use('Antl')
+
 class UserUpdate {
   get validateAll () {
     return true
@@ -16,6 +18,10 @@ class UserUpdate {
       rankings: 'array',
       positions: 'array'
     }
+  }
+
+  get messages () {
+    return Antl.list('validation')
   }
 }
 

@@ -24,10 +24,12 @@ class ExceptionHandler extends BaseExceptionHandler {
   }
 
   async report (error, { request }) {
-    Sentry.init({
-      dsn: Config.get('services.sentry.dsn')
-    })
-    Sentry.captureException(error)
+    if (Env.get('NODE_ENV') === 'production') {
+      Sentry.init({
+        dsn: Config.get('services.sentry.dsn')
+      })
+      Sentry.captureException(error)
+    }
   }
 }
 

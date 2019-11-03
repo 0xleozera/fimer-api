@@ -1,5 +1,7 @@
 'use strict'
 
+const Antl = use('Antl')
+
 class Like {
   get validateAll () {
     return true
@@ -9,6 +11,10 @@ class Like {
     return {
       likee_id: 'required'
     }
+  }
+
+  get messages () {
+    return Antl.list('validation')
   }
 }
 
