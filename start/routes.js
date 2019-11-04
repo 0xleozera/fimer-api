@@ -24,6 +24,7 @@ Route.group(() => {
 
   // Likes
   Route.post('likes', 'LikeController.store').validator('Like')
+  Route.delete('likes/:likee_id', 'LikeController.destroy')
 
   // Matches
   Route.get('matches', 'MatchController.index')
