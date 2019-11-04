@@ -14,7 +14,7 @@ class UserStore {
       birth_date: 'required',
       email: 'required|email|unique:users',
       gender: 'required',
-      password: 'required|confirm'
+      password: 'required'
     }
   }
 
