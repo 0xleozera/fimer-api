@@ -7,6 +7,7 @@ class MessageController {
     const messages = Message.query()
       .where('match_id', params.matchId)
       .with('send')
+      .with('send.avatar')
       .fetch()
 
     return messages
