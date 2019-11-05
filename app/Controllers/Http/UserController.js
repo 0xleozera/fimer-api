@@ -7,7 +7,8 @@ class UserController {
   async store ({ request }) {
     const data = request.post()
 
-    const user = await User.create(data)
+    const avatar = data.gender === 'Masculino' ? 2 : 3
+    const user = await User.create({ file_id: avatar, ...data })
 
     await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
 

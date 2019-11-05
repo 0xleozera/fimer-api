@@ -7,14 +7,12 @@ Route.post('users', 'UserController.store').validator('UserStore')
 Route.post('auth', 'AuthController.store').validator('Auth')
 
 Route.post('files', 'FileController.store')
+Route.get('files/:id', 'FileController.show')
 
 Route.group(() => {
   // Users
   Route.get('users/:id', 'UserController.show')
   Route.put('users', 'UserController.update').validator('UserUpdate')
-
-  // Files
-  Route.get('files/:id', 'FileController.show')
 
   // Games
   Route.get('games', 'GameController.index')
