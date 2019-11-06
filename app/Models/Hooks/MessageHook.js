@@ -1,6 +1,7 @@
 'use strict'
 
 const Ws = use('Ws')
+const Message = use('App/Models/Message')
 
 const MessageHook = (exports = module.exports = {})
 
@@ -11,5 +12,8 @@ MessageHook.sendWs = async message => {
     `messages:${message.match_id}`
   )
 
-  topic && topic.broadcast('message', message)
+  const currentMessage = await Message.findOrFail(message.id)
+  await currentMessage.loadMany(['send', 'send.avatar'])
+
+  topic && topic.broadcast('message', currentMessage)
 }
