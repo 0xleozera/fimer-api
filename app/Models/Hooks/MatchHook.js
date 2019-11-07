@@ -18,7 +18,7 @@ MatchHook.sendWs = async match => {
   )
 
   const newMatch = await Match.findOrFail(match.id)
-  await newMatch.loadMany(['matcher', 'matchee', 'messages', 'messages.send'])
+  await newMatch.loadMany(['matcher', 'matcher.avatar', 'matchee', 'matchee.avatar', 'messages', 'messages.send', 'messages.send'])
 
   topicMatcher && topicMatcher.broadcast('new', newMatch)
   topicMatchee && topicMatchee.broadcast('new', newMatch)
