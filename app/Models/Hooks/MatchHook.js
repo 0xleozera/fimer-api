@@ -17,15 +17,8 @@ MatchHook.sendWs = async match => {
     `matches:${match.matchee_id}`
   )
 
-  const fetchMatch = await Match.query()
-    .where('id', match.id)
-    .with('matcher')
-    .with('matchee')
-    .with('messages')
-    .with('messages.send')
-    .fetch()
-
-  const [newMatch] = fetchMatch.toJSON()
+  const newMatch = await Match.findOrFail(match.id)
+  await newMatch.loadMany(['matcher', 'matchee', 'messages', 'messages.send'])
 
   topicMatcher && topicMatcher.broadcast('new', newMatch)
   topicMatchee && topicMatchee.broadcast('new', newMatch)
