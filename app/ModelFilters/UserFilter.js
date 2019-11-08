@@ -24,7 +24,9 @@ class UserFilter extends ModelFilter {
   }
 
   currentUser (id) {
-    return this.whereNot('id', +id)
+    return this.whereNot('id', +id).whereDoesntHave('likees', (builder) => {
+      builder.where('liker_id', +id)
+    })
   }
 }
 
