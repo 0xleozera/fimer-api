@@ -20,6 +20,9 @@ Route.group(() => {
   // Search
   Route.get('search', 'SearchController.index')
 
+  // Search
+  Route.get('home', 'HomeController.index')
+
   // Likes
   Route.post('likes', 'LikeController.store').validator('Like')
   Route.delete('likes/:likee_id', 'LikeController.destroy')
