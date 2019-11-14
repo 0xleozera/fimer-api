@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Ws = use('Ws')
 const User = use('App/Models/User')
@@ -18,11 +18,19 @@ MatchHook.sendWs = async match => {
   )
 
   const newMatch = await Match.findOrFail(match.id)
-  await newMatch.loadMany(['matcher', 'matcher.avatar', 'matchee', 'matchee.avatar', 'messages', 'messages.send', 'messages.send'])
+  await newMatch.loadMany([
+    'matcher',
+    'matcher.avatar',
+    'matchee',
+    'matchee.avatar',
+    'messages',
+    'messages.send',
+    'messages.send'
+  ])
 
   topicMatcher && topicMatcher.broadcast('new', newMatch)
   topicMatchee && topicMatchee.broadcast('new', newMatch)
-}
+};
 
 MatchHook.notifyUsers = async match => {
   const topicMatcher = Ws.getChannel('matches:*').topic(
@@ -38,10 +46,12 @@ MatchHook.notifyUsers = async match => {
 
   topicMatcher &&
     topicMatcher.broadcast('match', {
+      id: matchee.id,
       content: `Opa, ${matchee.nickname} também quer bater uma gameplay com você`
     })
   topicMatchee &&
     topicMatchee.broadcast('match', {
+      id: matcher.id,
       content: `Opa, ${matcher.nickname} também quer bater uma gameplay com você`
     })
-}
+};
