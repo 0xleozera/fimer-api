@@ -46,11 +46,13 @@ MatchHook.notifyUsers = async match => {
 
   topicMatcher &&
     topicMatcher.broadcast('match', {
+      matchId: match.id,
       id: matchee.id,
       content: `Opa, ${matchee.nickname} também quer bater uma gameplay com você`
     })
   topicMatchee &&
     topicMatchee.broadcast('match', {
+      matchId: match.id,
       id: matcher.id,
       content: `Opa, ${matcher.nickname} também quer bater uma gameplay com você`
     })
