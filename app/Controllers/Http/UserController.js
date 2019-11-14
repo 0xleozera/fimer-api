@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Database = use('Database')
 const User = use('App/Models/User')
@@ -29,8 +29,12 @@ class UserController {
     const currentLikeers = await user.likers().fetch()
     const likers = currentLikeers.toJSON()
 
-    const filterLikers = likers.filter(liker => liker.likee_id === auth.user.id)
-    const filterLikees = likees.filter(likee => likee.liker_id === auth.user.id)
+    const filterLikers = likers.filter(
+      liker => liker.likee_id === auth.user.id
+    )
+    const filterLikees = likees.filter(
+      likee => likee.liker_id === auth.user.id
+    )
 
     if (filterLikers.length === 1 && filterLikees.length === 1) {
       return { status: 'matched', user }
@@ -51,6 +55,7 @@ class UserController {
       region,
       gender,
       file_id,
+      email,
       positions,
       games,
       rankings
@@ -64,7 +69,8 @@ class UserController {
       birth_date,
       region,
       gender,
-      file_id
+      file_id,
+      email
     })
 
     await user.save(trx)
