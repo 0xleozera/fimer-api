@@ -1,21 +1,36 @@
 'use strict'
 
-/*
-|--------------------------------------------------------------------------
-| Routes
-|--------------------------------------------------------------------------
-|
-| Http routes are entry points to your web application. You can create
-| routes for different URLs and bind Controller actions to them.
-|
-| A complete guide on routing is available here.
-| http://adonisjs.com/docs/4.1/routing
-|
-*/
-
-/** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
+Route.post('users', 'UserController.store').validator('UserStore')
+
+Route.post('auth', 'AuthController.store').validator('Auth')
+
+Route.post('files', 'FileController.store')
+Route.get('files/:id', 'FileController.show')
+
+Route.group(() => {
+  // Users
+  Route.get('users/:id', 'UserController.show')
+  Route.put('users', 'UserController.update').validator('UserUpdate')
+
+  // Games
+  Route.get('games', 'GameController.index')
+
+  // Search
+  Route.get('search', 'SearchController.index')
+
+  // Search
+  Route.get('home', 'HomeController.index')
+
+  // Likes
+  Route.post('likes', 'LikeController.store').validator('Like')
+  Route.delete('likes/:likee_id', 'LikeController.destroy')
+
+  // Matches
+  Route.get('matches', 'MatchController.index')
+
+  // Messages
+  Route.get('messages/:matchId', 'MessageController.index')
+  Route.post('messages', 'MessageController.store').validator('Message')
+}).middleware(['auth'])
