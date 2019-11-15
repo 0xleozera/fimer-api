@@ -1,8 +1,8 @@
 {
-  "name": "adonis-api-app",
+  "name": "fimer",
   "version": "4.1.0",
   "adonis-version": "4.1.0",
-  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
+  "description": "find people to play with you together",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
