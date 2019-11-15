@@ -29,7 +29,8 @@
     "@adonisjs/websocket": "^1.0.12",
     "@sentry/node": "5.7.1",
     "adonis-lucid-filter": "^1.0.4",
-    "pg": "^7.12.1"
+    "pg": "^7.12.1",
+    "url-parse": "^1.4.7"
   },
   "devDependencies": {
     "eslint": "^6.4.0",
