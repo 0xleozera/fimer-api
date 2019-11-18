@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,8 @@ const providers = [
   '@adonisjs/websocket/providers/WsProvider',
   '@adonisjs/validator/providers/ValidatorProvider',
   '@adonisjs/antl/providers/AntlProvider',
-  'adonis-lucid-filter/providers/LucidFilterProvider'
+  'adonis-lucid-filter/providers/LucidFilterProvider',
+  '@adonisjs/drive/providers/DriveProvider'
 ]
 
 /*
