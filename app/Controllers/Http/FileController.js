@@ -1,42 +1,60 @@
-'use strict'
+'use strict';
 
 const File = use('App/Models/File')
-const Helpers = use('Helpers')
+const Drive = use('Drive')
 
 class FileController {
   async show ({ params, response }) {
-    const file = await File.findOrFail(params.id)
+    try {
+      const file = await File.findOrFail(params.id)
 
-    return response.download(Helpers.tmpPath(`uploads/${file.file}`))
+      response.implicitEnd = false
+      response.header('Content-Type', file.content_type)
+
+      const stream = await Drive.getStream(file.key)
+
+      stream.pipe(response.response)
+    } catch (err) {
+      return response.status(err.status).json({
+        error: {
+          message: 'Arquivo não existe!',
+          err_message: err.message
+        }
+      })
+    }
   }
 
   async store ({ request, response }) {
-    try {
-      if (!request.file('file')) return
+    await request.multipart
+      .file('file', { size: '2mb' }, async file => {
+        try {
+          const ContentType = file.headers['content-type']
+          const ACL = 'public-read';
+          const Key = `${Date.now()}.${file.clientName}`
 
-      const upload = request.file('file', { size: '2mb' })
+          const url = await Drive.put(Key, file.stream, {
+            ContentType,
+            ACL
+          })
 
-      const fileName = `${Date.now()}.${upload.subtype}`
+          const currentFile = await File.create({
+            name: file.clientName,
+            key: Key,
+            url,
+            content_type: ContentType
+          })
 
-      await upload.move(Helpers.tmpPath('uploads'), { name: fileName })
-
-      if (!upload.moved()) {
-        throw upload.error()
-      }
-
-      const file = await File.create({
-        file: fileName,
-        name: upload.clientName,
-        type: upload.type,
-        subtype: upload.subtype
+          return currentFile
+        } catch (err) {
+          return response.status(err.status).json({
+            error: {
+              message: 'Não foi possível enviar o arquivo!',
+              err_message: err.message
+            }
+          })
+        }
       })
-
-      return file
-    } catch (err) {
-      return response
-        .status(err.status)
-        .send({ error: { message: 'Algo deu errado no upload do arquivo' } })
-    }
+      .process()
   }
 }
 
