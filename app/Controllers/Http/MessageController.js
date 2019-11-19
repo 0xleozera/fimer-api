@@ -1,27 +1,45 @@
-'use strict'
+'use strict';
 
 const Message = use('App/Models/Message')
 
 class MessageController {
-  async index ({ params }) {
-    const messages = Message.query()
-      .where('match_id', params.matchId)
-      .with('send')
-      .with('send.avatar')
-      .fetch()
+  async index ({ response, params }) {
+    try {
+      const messages = Message.query()
+        .where('match_id', params.matchId)
+        .with('send')
+        .with('send.avatar')
+        .fetch()
 
-    return messages
+      return messages
+    } catch (err) {
+      return response.status(err.status).json({
+        error: {
+          message: 'Não foi possível buscar as mensagens!',
+          err_message: err.message
+        }
+      })
+    }
   }
 
-  async store ({ request, auth }) {
-    const data = request.post()
+  async store ({ request, response, auth }) {
+    try {
+      const data = request.post()
 
-    const message = await Message.create({
-      user_send_id: auth.user.id,
-      ...data
-    })
+      const message = await Message.create({
+        user_send_id: auth.user.id,
+        ...data
+      })
 
-    return message
+      return message
+    } catch (err) {
+      return response.status(err.status).json({
+        error: {
+          message: 'Não foi possível enviar a mensagem!',
+          err_message: err.message
+        }
+      })
+    }
   }
 }
 

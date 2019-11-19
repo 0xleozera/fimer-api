@@ -1,42 +1,37 @@
-'use strict'
+'use strict';
 
 const Database = use('Database')
 const Like = use('App/Models/Like')
 const Match = use('App/Models/Match')
 
 class LikeController {
-  async store ({ request, auth }) {
-    const data = request.post()
+  async store ({ request, response, auth }) {
+    try {
+      const data = request.post()
 
-    const like = await Like.create({ liker_id: auth.user.id, ...data })
+      const like = await Like.create({ liker_id: auth.user.id, ...data })
 
-    return like
+      return like
+    } catch (err) {
+      return response.status(err.status).json({
+        error: {
+          message: 'Não foi possível curtir o jogador!',
+          err_message: err.message
+        }
+      })
+    }
   }
 
   async destroy ({ params, response, auth }) {
-    const trx = await Database.beginTransaction()
+    try {
+      const trx = await Database.beginTransaction()
 
-    await Like.query()
-      .where('liker_id', auth.user.id)
-      .andWhere('likee_id', params.likee_id)
-      .delete(trx)
+      await Like.query()
+        .where('liker_id', auth.user.id)
+        .andWhere('likee_id', params.likee_id)
+        .delete(trx)
 
-    const fetchMatch = await Match.query()
-      .where(builder => {
-        builder
-          .where('matcher_id', auth.user.id)
-          .orWhere('matchee_id', auth.user.id)
-      })
-      .andWhere(builder => {
-        builder
-          .where('matchee_id', params.likee_id)
-          .orWhere('matcher_id', params.likee_id)
-      })
-      .fetch()
-    const [match] = fetchMatch.toJSON()
-
-    if (match) {
-      await await Match.query()
+      const fetchMatch = await Match.query()
         .where(builder => {
           builder
             .where('matcher_id', auth.user.id)
@@ -47,12 +42,37 @@ class LikeController {
             .where('matchee_id', params.likee_id)
             .orWhere('matcher_id', params.likee_id)
         })
-        .delete(trx)
+        .fetch()
+      const [match] = fetchMatch.toJSON()
+
+      if (match) {
+        await await Match.query()
+          .where(builder => {
+            builder
+              .where('matcher_id', auth.user.id)
+              .orWhere('matchee_id', auth.user.id)
+          })
+          .andWhere(builder => {
+            builder
+              .where('matchee_id', params.likee_id)
+              .orWhere('matcher_id', params.likee_id)
+          })
+          .delete(trx)
+      }
+
+      await trx.commit()
+
+      return response
+        .status(200)
+        .send({ message: 'Jogar removido com sucesso!' })
+    } catch (err) {
+      return response.status(err.status).json({
+        error: {
+          message: 'Não foi possível excluir o curtir com o jogador!',
+          err_message: err.message
+        }
+      })
     }
-
-    await trx.commit()
-
-    return response.status(200).send({ message: 'Jogar removido com sucesso!' })
   }
 }
 

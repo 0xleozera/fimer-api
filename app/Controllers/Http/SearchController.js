@@ -1,20 +1,29 @@
-'use strict'
+'use strict';
 
 const User = use('App/Models/User')
 
 class SearchController {
-  async index ({ request, auth }) {
-    const data = request.all()
+  async index ({ request, response, auth }) {
+    try {
+      const data = request.all()
 
-    const users = await User.query()
-      .filter({ ...data, current_user: auth.user.id })
-      .with('avatar')
-      .with('games')
-      .with('rankings')
-      .with('positions')
-      .fetch()
+      const users = await User.query()
+        .filter({ ...data, current_user: auth.user.id })
+        .with('avatar')
+        .with('games')
+        .with('rankings')
+        .with('positions')
+        .fetch()
 
-    return users
+      return users
+    } catch (err) {
+      return response.status(err.status).json({
+        error: {
+          message: 'Não foi possível buscar os jogadores!',
+          err_message: err.message
+        }
+      })
+    }
   }
 }
 
