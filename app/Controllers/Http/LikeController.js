@@ -24,10 +24,12 @@ class LikeController {
 
   async destroy ({ params, response, auth }) {
     try {
+      const trx = await Database.beginTransaction()
+
       await Like.query()
         .where('liker_id', auth.user.id)
         .andWhere('likee_id', params.likee_id)
-        .delete()
+        .delete(trx)
 
       const fetchMatch = await Match.query()
         .where(builder => {
@@ -55,8 +57,10 @@ class LikeController {
               .where('matchee_id', params.likee_id)
               .orWhere('matcher_id', params.likee_id)
           })
-          .delete()
+          .delete(trx)
       }
+
+      await trx.commit()
 
       return response
         .status(200)
