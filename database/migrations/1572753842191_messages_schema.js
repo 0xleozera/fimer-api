@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
@@ -12,6 +12,8 @@ class MessagesSchema extends Schema {
         .unsigned()
         .references('id')
         .inTable('matches')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
       table
         .integer('user_send_id')
         .unsigned()
