@@ -31,7 +31,7 @@ class LikeController {
         .andWhere('likee_id', params.likee_id)
         .delete(trx)
 
-      const fetchMatch = await Match.query()
+      const match = await Match.query()
         .where(builder => {
           builder
             .where('matcher_id', auth.user.id)
@@ -42,22 +42,10 @@ class LikeController {
             .where('matchee_id', params.likee_id)
             .orWhere('matcher_id', params.likee_id)
         })
-        .fetch()
-      const [match] = fetchMatch.toJSON()
+        .first()
 
       if (match) {
-        await await Match.query()
-          .where(builder => {
-            builder
-              .where('matcher_id', auth.user.id)
-              .orWhere('matchee_id', auth.user.id)
-          })
-          .andWhere(builder => {
-            builder
-              .where('matchee_id', params.likee_id)
-              .orWhere('matcher_id', params.likee_id)
-          })
-          .delete(trx)
+        await match.delete(trx)
       }
 
       await trx.commit()
