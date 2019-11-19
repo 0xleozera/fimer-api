@@ -44,7 +44,7 @@ class FileController {
             content_type: ContentType
           })
 
-          return currentFile
+          return response.status(200).json(currentFile)
         } catch (err) {
           return response.status(err.status).json({
             error: {
