@@ -8,7 +8,13 @@ class UserController {
     try {
       const data = request.post()
 
-      const avatar = data.gender === 'Masculino' ? 1 : 2
+      const currentAvatar = {
+        Masculino: 1,
+        Feminino: 2,
+        Outro: 3
+      }
+
+      const avatar = currentAvatar[data.gender]
       const user = await User.create({ file_id: avatar, ...data })
 
       await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
