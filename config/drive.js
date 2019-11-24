@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const Helpers = use('Helpers')
 const Env = use('Env')

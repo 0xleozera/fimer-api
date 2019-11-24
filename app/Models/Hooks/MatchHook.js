@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const Ws = use('Ws')
 const User = use('App/Models/User')
@@ -30,7 +30,7 @@ MatchHook.sendWs = async match => {
 
   topicMatcher && topicMatcher.broadcast('new', newMatch)
   topicMatchee && topicMatchee.broadcast('new', newMatch)
-};
+}
 
 MatchHook.notifyUsers = async match => {
   const topicMatcher = Ws.getChannel('matches:*').topic(
@@ -56,4 +56,4 @@ MatchHook.notifyUsers = async match => {
       id: matcher.id,
       content: `Opa, ${matcher.nickname} também quer bater uma gameplay com você`
     })
-};
+}
