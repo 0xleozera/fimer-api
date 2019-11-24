@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const Database = use('Database')
 const Like = use('App/Models/Like')

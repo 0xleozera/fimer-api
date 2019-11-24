@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const File = use('App/Models/File')
 const Drive = use('Drive')
@@ -29,7 +29,7 @@ class FileController {
       .file('file', { size: '2mb' }, async file => {
         try {
           const ContentType = file.headers['content-type']
-          const ACL = 'public-read';
+          const ACL = 'public-read'
           const Key = `${Date.now()}.${file.clientName}`
 
           const url = await Drive.put(Key, file.stream, {
