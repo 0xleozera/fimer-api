@@ -100,17 +100,9 @@ class UserController {
 
       await user.save(trx)
 
-      if (games && games.length > 0) {
-        await user.games().sync(games, trx)
-      }
-
-      if (positions && positions.length > 0) {
-        await user.positions().sync(positions, trx)
-      }
-
-      if (rankings && rankings.length > 0) {
-        await user.rankings().sync(rankings, trx)
-      }
+      await user.games().sync(games, trx)
+      await user.positions().sync(positions, trx)
+      await user.rankings().sync(rankings, trx)
 
       await user.loadMany(['avatar', 'positions', 'games', 'rankings'])
 
